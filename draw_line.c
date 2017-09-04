@@ -6,7 +6,7 @@
 /*   By: gsferopo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/30 08:53:44 by gsferopo          #+#    #+#             */
-/*   Updated: 2017/06/30 16:52:20 by gsferopo         ###   ########.fr       */
+/*   Updated: 2017/08/28 10:44:32 by gsferopo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int			draw_line(t_proc *a, t_draw *d)
 	while (++d->i <= d->steps)
 	{
 		a->i = sqrt(pow(d->x2 - d->x1, 2) + pow(d->y2 - d->y1, 2));
-		if (!(a->i > (a->zoom * 3) * 5))
+		if (!(a->i > (a->zoom) * 5))
 		{
 			put_pixel(a, d->x, d->y);
 			d->x += d->xinc;
@@ -39,22 +39,24 @@ int			printchar_p2(t_proc *a)
 {
 	t_draw	d;
 
-	AY = -1;
-	AX = -1;
-	while (AM[AX][++AY] != -100)
+	AY = 0;
+	AX = 0;
+	while (AY < a->size_y)
 	{
-		while (AM[++AX][AY] != -100)
+		while (AX < a->size_x)
 		{
 			d.x1 = round(ASX / 1000);
 			d.y1 = round(ASX % 1000);
-			d.x2 = round(AS[AX + 1][AY] / 1000);
-			d.y2 = round(AS[AX + 1][AY] % 1000);
+			d.x2 = round(AS[AY + 1][AX] / 1000);
+			d.y2 = round(AS[AY + 1][AX] % 1000);
 			draw_line(a, &d);
-			d.x2 = round(AS[AX][AY + 1] / 1000);
-			d.y2 = round(AS[AX][AY + 1] % 1000);
+			d.x2 = round(AS[AY][AX + 1] / 1000);
+			d.y2 = round(AS[AY][AX + 1] % 1000);
 			draw_line(a, &d);
+			AX++;
 		}
 		AX = 0;
+		AY++;
 	}
 	return (1);
 }

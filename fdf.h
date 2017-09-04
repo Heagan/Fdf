@@ -6,14 +6,14 @@
 /*   By: gsferopo <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/06/09 16:24:36 by gsferopo          #+#    #+#             */
-/*   Updated: 2017/06/30 16:55:23 by gsferopo         ###   ########.fr       */
+/*   Updated: 2017/08/28 13:37:03 by gsferopo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
-# include "libft.h"
+# include "libft/libft.h"
 # include <mlx.h>
 # include <math.h>
 # include <fcntl.h>
@@ -28,17 +28,22 @@
 # define AY a->y
 # define AI a->i
 # define AZ a->zoom
-# define AMX AM[AX][AY]
-# define ASX AS[AX][AY]
+# define AMX AM[AY][AX]
+# define ASX AS[AY][AX]
+# define DEG_T_RAD	2 * M_PI / 180
+# define DEG 45
 
 typedef struct	s_proc {
 
+	char		*file_name;
 	void		*mlx;
 	void		*win;
 	void		*img;
+	int			size_x;
+	int			size_y;
 	int			x;
 	int			y;
-	int			m[1000][1000];
+	int			**m;
 	int			s[1000][1000];
 	int			fd;
 	int			i;
@@ -65,6 +70,8 @@ typedef struct	s_draw {
 	int			i;
 }				t_draw;
 
+void			prep_var(t_proc *a, char *av);
+int				isdir(t_proc *a);
 int				put_pixel(t_proc *a, int x, int y);
 int				printchar(t_proc *a);
 int				draw_line(t_proc *a, t_draw *d);

@@ -6,24 +6,37 @@
 #    By: gsferopo <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/06/30 16:57:19 by gsferopo          #+#    #+#              #
-#    Updated: 2017/06/30 16:57:30 by gsferopo         ###   ########.fr        #
+#    Updated: 2017/08/28 07:56:52 by gsferopo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = -o app
+NAME = fdf
 
-SRC = fdf.c draw_line.c
+SRC = fdf.c draw_line.c prep.c
 
-LIB = -L. -lft
+LIB = libft/libft.a
 
 FLAG = -lmlx -framework opengl -framework appkit
 
 ERROR = -Werror -Wall -Wextra
 
-all: $(NAME)
-
-$(NAME):
-		gcc $(NAME) $(SRC) $(LIB) $(FLAG) $(ERROR)
+all:
+	@echo "Checking if libft needs to be compiled"
+	@make -C ./libft
+	@echo "Compiling Fdf"
+	@gcc -o $(NAME) $(SRC) $(FLAG) $(ERROR) $(LIB)
+	@echo "Fdf Compiled"
 
 clean:
-		rm -f $(NAME)
+	$(MAKE) -C ./libft clean
+	@rm -f $(NAME)
+
+fclean: clean
+	$(MAKE) -C ./libft fclean
+	@rm -f $(LIB)
+
+re: fclean lib all
+
+lib:
+	@echo "Re-compiling libft"
+	$(MAKE) -C ./libft all
